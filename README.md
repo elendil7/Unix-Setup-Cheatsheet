@@ -141,12 +141,13 @@ sudo yum autoremove # remove all unused packages, dependencies, and configuratio
 # 🎁 Useful packages
 ## Essentials
 ```bash
+# Main packages
 sudo apt install curl # download files
 sudo apt install wget # download files
 sudo apt install git # version control
 sudo apt install neovim # neovim text editor
 
-# docker
+# Docker
 sudo apt-get remove docker docker-engine docker.io # remove old docker versions
 sudo apt install docker.io # docker
 sudo apt install docker-compose # docker-compose
@@ -157,6 +158,19 @@ sudo apt install docker.io-doc # docker.io-doc
 sudo apt install docker-compose-doc # docker-compose-doc
 sudo apt install docker-registry-doc # docker-registry-doc
 sudo apt install docker-machine-doc # docker-machine-doc
+
+# Netdata
+wget <<<........................>>> # install netdata (get full link from https://www.netdata.cloud/, when selecting OS)
+sudo systemctl start netdata # start netdata
+sudo systemctl enable netdata # enable netdata on startup
+sudo systemctl status netdata # show netdata status
+sudo systemctl stop netdata # stop netdata
+sudo journalctl --unit=netdata --follow # show netdata logs (follow)
+sudo /etc/netdata/./edit-config --list # show netdata config
+sudo /etc/netdata/./edit-config # edit netdata config
+sudo /etc/netdata/./edit-config health_alarm_notify.conf # edit netdata health alarm notify config
+# Don't forget to restart netdata!
+sudo /usr/libexec/netdata/plugins.d/alarm-notify.sh test discord # test discord webhook notification
 ```
 ## Vanity
 ```bash
