@@ -23,6 +23,7 @@
   - [Essentials](#essentials)
   - [Vanity](#vanity)
 - [🚀 Devops](#-devops)
+  - [🔐 SSH](#-ssh)
   - [🐳 Docker](#-docker)
 - [🛠️ Maintenance](#️-maintenance)
 - [🐧 Gratitude](#-gratitude)
@@ -180,6 +181,16 @@ sudo apt install htop # top replacement
 ```
 
 # 🚀 Devops
+
+## 🔐 SSH
+```bash
+ssh-keygen -t ed25519 -a 100 # generate strong public/private key
+ssh-copy-id <username>@<ip> # copy ssh key to server
+ssh <username>@<ip> # ssh into server
+ssh -i <path/to/key> <username>@<ip> # ssh into server with key
+ssh -i <path/to/key> -p <port> <username>@<ip> # ssh into server with key and port
+```
+
 ## 🐳 Docker
 ```bash
 docker ps # show running containers
