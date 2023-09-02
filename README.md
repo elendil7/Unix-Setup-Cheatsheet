@@ -26,6 +26,7 @@
   - [🔐 SSH](#-ssh)
   - [🐳 Docker](#-docker)
 - [🛠️ Maintenance](#️-maintenance)
+- [🚚 Server Migration](#-server-migration)
 - [🐧 Gratitude](#-gratitude)
 
 # 💼 Introduction
@@ -93,6 +94,8 @@ alias autoremove='sudo yum autoremove'
 alias dockerps='docker ps'
 alias dockerpsa='docker ps -a'
 alias dockerimages='docker images'
+alias dockervols='docker volume ls'
+alias dockervol='docker volume inspect'
 alias dockerlogs='docker logs --follow --tail 500'
 alias dockerexec='docker exec -it'
 alias dockerstop='docker stop'
@@ -196,6 +199,8 @@ ssh -i <path/to/key> -p <port> <username>@<ip> # ssh into server with key and po
 docker ps # show running containers
 docker ps -a # show all containers
 docker images # show images
+docker volume ls # show volumes
+docker volume inspect <volume> # show specific volume info (including mount point (absolute path to volume on host machine))
 docker logs <container> # show container logs
 docker logs <container> --follow # show container logs (follow)
 docker logs <container> --tail 500 # show container logs (last 500 lines)
@@ -317,6 +322,16 @@ crontab -r # remove crontab
 crontab -u <username> -e # edit crontab for user
 crontab -u <username> -l # list crontab for user
 crontab -u <username> -r # remove crontab for user
+```
+
+# 🚚 Server Migration
+```bash
+# MongoDB (scp)
+sudo scp -r <path/to/local/directory> <username>@<ip>:<path/to/directory> # copy directory from one server to another
+
+# MongoDB (mongodump & mongorestore) from docker-compose
+docker-compose exec -T <mongodb service> sh -c 'mongodump --archive' > db.dump
+docker-compose exec -T <mongodb service> sh -c 'mongorestore --archive' < db.dump
 ```
 
 # 🐧 Gratitude
