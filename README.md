@@ -15,7 +15,8 @@
   - [Aliases for apt](#aliases-for-apt)
   - [Aliases for yum](#aliases-for-yum)
   - [Docker aliases](#docker-aliases)
-  - [Vanity aliases](#vanity-aliases)
+  - [System aliases](#system-aliases)
+  - [Safer aliases](#safer-aliases)
 - [📦 Package Managers](#-package-managers)
   - [Apt](#apt)
   - [Yum](#yum)
@@ -71,7 +72,6 @@ Permissions can be changed using the `chmod` command. The `chmod` command takes 
 Aliases are essentially hotkeys of sorts; that allow you to execute a command with certain flags without actually having to write them out each time. They can be added to the bashrc file (see [~/.bashrc file](#bashrc)), for global use, or to the bash_aliases file (see [~/.bash_aliases file](#bash_aliases)), for user specific use.
 
 ## Aliases for apt
-
 ```bash
 alias update='sudo apt update && sudo apt upgrade -y'
 alias install='sudo apt install'
@@ -110,11 +110,29 @@ alias dockerprunes='docker system prune -a -f'
 alias dockerpruneall='docker image prune -a -f && docker builder prune -f && docker system prune -a -f'
 ```
 
-## Vanity aliases
+## System aliases
 ```bash
-alias ls='exa -Fg -l --icons --group-directories-first' # prerequisities: exa
-alias df='df -h'
+alias ls='exa -Fg -l --group-directories-first -S -h'
+alias la='ls -la'
+alias ll='ls -l'
+alias al='la'
+alias sl='ls'
+alias df='df -h | sort -k2 -hr'
+alias du='du -h'
 alias ip='ip -c'
+alias cal='cal -m'
+alias vim='env -u TERM vim'
+alias diff='diff -u --color=always'
+alias tree='tree -CF --dirsfirst'
+alias less='less -RF'
+```
+
+## Safer aliases
+```bash
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias ln='ln -i'
 ```
 
 # 📦 Package Managers
