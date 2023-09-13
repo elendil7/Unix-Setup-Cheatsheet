@@ -113,6 +113,7 @@ alias dockerpruneall='docker image prune -a -f && docker builder prune -f && doc
 ## System aliases
 ```bash
 alias ls='eza -Fg -l --group-directories-first -S -h' # requires eza package
+alias ls='ls -lh --color=auto --group-directories-first' # native ls implementation
 alias la='ls -la'
 alias ll='ls -l'
 alias al='la'
