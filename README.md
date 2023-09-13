@@ -25,6 +25,9 @@
   - [Vanity](#vanity)
 - [🚀 Devops](#-devops)
   - [🔐 SSH](#-ssh)
+  - [🐙 Git](#-git)
+    - [How to clone a private repository from github to a server](#how-to-clone-a-private-repository-from-github-to-a-server)
+    - [How to setup github actions redeploy (connected)](#how-to-setup-github-actions-redeploy-connected)
   - [🐳 Docker](#-docker)
 - [🛠️ Maintenance](#️-maintenance)
 - [🚚 Server Migration](#-server-migration)
@@ -206,8 +209,11 @@ sudo apt install htop # top replacement
 
 ## 🔐 SSH
 ```bash
-ssh-keygen -t ed25519 -a 100000 -f C:/Users/<username>/.ssh/<keyname> # generate strong public/private key (windows)
-ssh-keygen -t ed25519 -a 100000 -f ~/.ssh/<keyname> # generate strong public/private key (linux)
+ssh-keygen -t ed25519 -a 100000 -o -f C:/Users/<username>/.ssh/<keyname> # generate strong public/private key (windows)
+ssh-keygen -t ed25519 -a 100000 -o -f ~/.ssh/<keyname> # generate strong public/private key (linux)
+
+ssh-keygen -t ed25519 -a 100000 -o -f ~/.ssh/<keyname> -C "<nameORemail>" # generate with description
+ssh-keygen -t ed25519 -a 100000 -o -f ~/.ssh/<keyname> -N "<passphrase>" # generate with passphrase
 
 # Note: Private key stays on local machine, public key is copied to server (when SSHing into server).
 
@@ -220,6 +226,92 @@ ssh -i <path/to/key> -p <port> <username>@<ip> # ssh into server with key and po
 chmod 700 ~/.ssh # set permissions for .ssh directory
 chmod 600 ~/.ssh/<keyname> # set permissions for private key
 chmod 644 ~/.ssh/<keyname>.pub # set permissions for public key
+```
+
+## 🐙 Git
+### How to clone a private repository from github to a server
+```bash
+# 1. Generate a new ssh key pair on the server with your GitHub email address as a comment.
+ssh-keygen -t ed25519 -a 100000 -f ~/.ssh/<projectname>_github_access -C "<youremail@something>"
+# 2. Create a config file in the .ssh directory (if does not already exist)
+touch ~/.ssh/config
+nano ~/.ssh/config
+# 3. Add the following to the config file (adjust as needed):
+Host github
+  HostName github.com
+  User git
+  AddKeysToAgent yes
+  PreferredAuthentications publickey
+  IdentityFile ~/.ssh/<projectname>_github_access
+# 2. Copy the contents of the public key to the clipboard
+cat ~/.ssh/<projectname>_github_access.pub
+# 3. Navigate to the github repository > Settings > Deploy keys > Add deploy key (https://github.com/<usernameORorganization>/<repositoryName>/settings/keys).
+# 4. Give the public key a title, and paste the contents of the public key into the key field.
+# 5. Go to the server, and clone the repository using the following command:
+git clone github:<usernameORorganization>/<repository>.git # e.g., git clone git@github:elendil7/Unix-Setup-Cheatsheet
+```
+
+### How to setup github actions redeploy (connected)
+```bash
+# 1. Generate a new ssh key pair on the server
+ssh-keygen -t ed25519 -a 100000 -f ~/.ssh/<projectname>_github_actions
+# 2. Add the generated public key to the authorized_keys file on the server
+cat ~/.ssh/<projectname>_github_actions.pub
+nano ~/.ssh/authorized_keys
+# 3. Copy the contents of the private key to the clipboard
+cat ~/.ssh/<projectname>_github_actions
+# 4. Go to github repository > Settings > Secrets > New repository secret (https://github.com/<usernameORorganization>/<repositoryName>/settings/secrets/actions)
+# 5. Add the following secrets to the repository:
+SERVER_HOST # ip address of server
+SERVER_PORT # port of server (default: 22)
+SERVER_USER # username of server
+SERVER_KEY # private key of server (copy contents of ~/.ssh/<projectname> file)
+# 6. In your github actions file, add the following code as a step in the workflow (adjust as needed):
+- name: Connect via SSH to server, and execute redeploy commands.
+  uses: appleboy/ssh-action@v0.1.9
+  with:
+    host: ${{ secrets.SERVER_HOST }}
+    port: ${{ secrets.SERVER_PORT }}
+    username: ${{ secrets.SERVER_USER }}
+    key: ${{ secrets.SERVER_KEY }}
+    command_timeout: 10m
+    script: |
+      echo "** Connected to server via SSH. **"
+      echo "Running deploy script..."
+
+      # Change working dir using absolute path
+      cd /dir/to/github/repository
+        
+      echo "Pulling changes from main branch..."
+
+      # Pull changes from main branch
+      git pull origin main
+        
+      echo "** Pulled changes from main branch. **"
+
+      # * Adjust the following according to your needs, or delete it entirely (up to you):
+
+      # Optional #1: Run deploy script
+      echo "Running deploy scripts..."
+
+      # docker / docker-compose / npm / pip / etc. commands here
+      # e.g., docker-compose up -d --build
+      # e.g., npm install
+      # e.g., pip install -r requirements.txt
+
+      echo "Deploy scripts finished."
+
+      # Optional #2: Run other commands
+      echo "Running other commands..."
+
+      # e.g., docker image prune -a -f
+      # e.g., docker builder prune -f
+      # e.g., docker system prune -a -f
+      # e.g., update / upgrade / install / remove / search / autoremove / etc. commands here
+
+      echo "Other commands finished."
+
+      exit 0
 ```
 
 ## 🐳 Docker
