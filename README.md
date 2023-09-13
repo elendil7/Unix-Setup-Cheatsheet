@@ -112,7 +112,7 @@ alias dockerpruneall='docker image prune -a -f && docker builder prune -f && doc
 
 ## System aliases
 ```bash
-alias ls='exa -Fg -l --group-directories-first -S -h'
+alias ls='eza -Fg -l --group-directories-first -S -h' # requires eza package
 alias la='ls -la'
 alias ll='ls -l'
 alias al='la'
@@ -205,11 +205,20 @@ sudo apt install htop # top replacement
 
 ## 🔐 SSH
 ```bash
-ssh-keygen -t ed25519 -a 100 # generate strong public/private key
-ssh-copy-id <username>@<ip> # copy ssh key to server
+ssh-keygen -t ed25519 -a 100000 -f C:/Users/<username>/.ssh/<keyname> # generate strong public/private key (windows)
+ssh-keygen -t ed25519 -a 100000 -f ~/.ssh/<keyname> # generate strong public/private key (linux)
+
+# Note: Private key stays on local machine, public key is copied to server (when SSHing into server).
+
+ssh-copy-id <username>@<ip> # automatically copy ssh key to server
+nano ~/.ssh/authorized_keys # # manually copy public key to server (add public key to authorized_keys file on server)
 ssh <username>@<ip> # ssh into server
 ssh -i <path/to/key> <username>@<ip> # ssh into server with key
 ssh -i <path/to/key> -p <port> <username>@<ip> # ssh into server with key and port
+
+chmod 700 ~/.ssh # set permissions for .ssh directory
+chmod 600 ~/.ssh/<keyname> # set permissions for private key
+chmod 644 ~/.ssh/<keyname>.pub # set permissions for public key
 ```
 
 ## 🐳 Docker
