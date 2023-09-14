@@ -335,6 +335,7 @@ SERVER_KEY # private key of server (copy contents of ~/.ssh/<projectname> file)
 
 ## 🐳 Docker
 ```bash
+# Docker commands
 docker ps # show running containers
 docker ps -a # show all containers
 docker images # show images
@@ -370,6 +371,17 @@ docker rm -f $(docker ps -a -q) && docker rmi -f $(docker images -q) # remove al
 docker image prune -a -f # purge all unused or dangling images (forcefully)
 docker builder prune -f # purge all build cache (forcefully)
 docker system prune -a -f # purge all unused containers, networks, images (both dangling and unreferenced), and optionally, volumes (forcefully)
+
+# Docker Compose commands
+docker-compose up -d --build # build and start containers
+docker-compose down # stop and remove containers
+docker-compose ps # show running containers
+docker-compose exec <service> /bin/bash # get into container to run commands (sh)
+docker-compose exec <service> <command> # run command in container (no bash)
+docker-compose stop <service> # stop service
+docker-compose kill <service> # stop service (forcefully)
+docker-compose logs <service> # show service logs
+docker-compose logs <service> --follow --tail 500 # show service logs (follow and last 500 lines)
 ```
 
 # 🛠️ Maintenance
