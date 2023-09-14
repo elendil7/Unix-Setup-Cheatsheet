@@ -112,6 +112,24 @@ alias dockprunei='docker image prune -a -f'
 alias dockpruneb='docker builder prune -f'
 alias dockprunes='docker system prune -a -f'
 alias dockpruneall='docker image prune -a -f && docker builder prune -f && docker system prune -a -f'
+
+# Docker Compose
+alias comp='docker-compose'
+alias compup='docker-compose up -d --build'
+alias compdown='docker-compose down'
+alias compps='docker-compose ps'
+alias compexec='docker-compose exec'
+alias compstop='docker-compose stop'
+alias compkill='docker-compose kill'
+alias comprm='docker-compose rm'
+alias comprmf='docker-compose rm -f'
+alias comprmall='docker-compose rm $(docker-compose ps -a -q)'
+alias comprmallf='docker-compose rm -f $(docker-compose ps -a -q)'
+alias complogs='docker-compose logs --follow --tail 500'
+alias compprunei='docker-compose image prune -a -f'
+alias comppruneb='docker-compose builder prune -f'
+alias compprunes='docker-compose system prune -a -f'
+alias comppruneall='docker-compose image prune -a -f && docker-compose builder prune -f && docker-compose system prune -a -f'
 ```
 
 ## System aliases
