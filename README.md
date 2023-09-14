@@ -219,7 +219,7 @@ sudo /usr/libexec/netdata/plugins.d/alarm-notify.sh test discord # test discord 
 ```
 ## Vanity
 ```bash
-sudo apt install exa # ls replacement
+sudo apt install eza # ls replacement
 sudo apt install bat # cat replacement
 sudo apt install htop # top replacement
 ```
