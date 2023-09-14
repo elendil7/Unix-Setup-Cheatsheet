@@ -95,6 +95,7 @@ alias autoremove='sudo yum autoremove'
 ## Docker aliases
 ```bash
 # Docker
+alias dock='docker'
 alias dockps='docker ps'
 alias dockpsa='docker ps -a'
 alias dockimages='docker images'
