@@ -29,6 +29,7 @@
     - [How to clone a private repository from github to a server](#how-to-clone-a-private-repository-from-github-to-a-server)
     - [How to setup github actions redeploy (connected)](#how-to-setup-github-actions-redeploy-connected)
   - [🐳 Docker](#-docker)
+- [🛡️ Security](#️-security)
 - [🛠️ Maintenance](#️-maintenance)
 - [🚚 Server Migration](#-server-migration)
 - [🐧 Gratitude](#-gratitude)
@@ -383,6 +384,15 @@ docker-compose stop <service> # stop service
 docker-compose kill <service> # stop service (forcefully)
 docker-compose logs <service> # show service logs
 docker-compose logs <service> --follow --tail 500 # show service logs (follow and last 500 lines)
+```
+
+# 🛡️ Security
+```bash
+# httpd-tools
+sudo apt install httpd-tools # install httpd-tools
+htpasswd -c <path/to/file> <username> # create htpasswd file
+htpasswd -bc <path/to/file> <username> <password> # create htpasswd file with username and password (from command line)
+htpasswd -bc -B5 -C 16 -r 100000 <path/to/file> <username> <password> # create htpasswd file. HIGHLY SECURE: bcrypt (16 rounds) & SHA-512 (100,000 rounds)
 ```
 
 # 🛠️ Maintenance
