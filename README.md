@@ -114,6 +114,13 @@ alias dockprunei='docker image prune -a -f'
 alias dockpruneb='docker builder prune -f'
 alias dockprunes='docker system prune -a -f'
 alias dockpruneall='docker image prune -a -f && docker builder prune -f && docker system prune -a -f'
+alias dockrestart='docker restart'
+alias dockrestarta='docker restart $(docker ps -a -q)'
+alias dockrestartf='docker restart $(docker ps -f status=exited -q)'
+alias dockrun='docker run'
+alias dockpull='docker pull'
+alias dockpush='docker push'
+alias dockbuild='docker build'
 
 # Docker Compose
 alias comp='docker-compose'
