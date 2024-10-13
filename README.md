@@ -158,6 +158,9 @@ alias vim='env -u TERM vim'
 alias diff='diff -u --color=always'
 alias tree='tree -CF --dirsfirst'
 alias less='less -RF'
+alias ip="ip -c" # show network interfaces
+alias ipa="ip -c a" # show ip addresses
+alias ipr="ip -c r" # show routing table
 ```
 
 ## Safer aliases
